@@ -3,8 +3,8 @@ package boring.labs;
 public class CurrentAccount extends BankAccount {
     private double overdraftLimit;
 
-    public CurrentAccount(String accountNumber, String accountName) {
-        super(accountNumber, accountName);
+    public CurrentAccount(String pin) {
+        super(pin);
         overdraftLimit = 500.0;
     }
 

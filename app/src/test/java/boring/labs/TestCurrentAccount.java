@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestCurrentAccount {
     @Test
     void canOverdraft() {
-        CurrentAccount ca = new CurrentAccount("12039104", "John");
+        CurrentAccount ca = new CurrentAccount("2932");
         ca.deposit(100);
         ca.withdraw(200);
         assertEquals(-100, ca.getBalance());
@@ -14,7 +14,7 @@ class TestCurrentAccount {
 
     @Test
     void cannotExceedOverdraftLimit() {
-        CurrentAccount ca = new CurrentAccount("12039104", "John");
+        CurrentAccount ca = new CurrentAccount("2932");
         ca.deposit(100);
         ca.withdraw(300);
         assertEquals(-200, ca.getBalance());

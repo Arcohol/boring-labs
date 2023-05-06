@@ -9,9 +9,9 @@ public class JuniorAccount extends BankAccount {
     // if it's a new day, reset the withdrawal limit
     private LocalDate lastWithdrawalDate;
 
-    public JuniorAccount(String accountNumber, String accountName) {
-        super(accountNumber, accountName);
-        this.withdrawalLimit = 100.0;
+    public JuniorAccount(String pin) {
+        super(pin);
+        resetWithdrawalLimit();
     }
 
     public double getWithdrawalLimit() {

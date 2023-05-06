@@ -1,24 +1,28 @@
 package boring.labs;
 
+import java.util.Random;
+
 public abstract class BankAccount {
     private String accountNumber;
-    private String accountName;
+    private String pin;
     private double balance;
     private boolean isSuspended;
+    private boolean isClosed;
 
-    public BankAccount(String accountNumber, String accountName) {
-        this.accountNumber = accountNumber;
-        this.accountName = accountName;
+    public BankAccount(String pin) {
+        setAccountNumber();
+        setPin(pin);
         this.balance = 0.0;
         this.isSuspended = false;
+        this.isClosed = false;
     }
 
     public String getAccountNumber() {
         return accountNumber;
     }
 
-    public String getAccountName() {
-        return accountName;
+    public String getPin() {
+        return pin;
     }
 
     public double getBalance() {
@@ -29,12 +33,33 @@ public abstract class BankAccount {
         return isSuspended;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
+    public boolean isClosed() {
+        return isClosed;
+    }
+
+    private void setAccountNumber() {
+        Random random = new Random();
+        int accountNumber = random.nextInt(99999999);
+        this.accountNumber = String.format("%08d", accountNumber);
+    }
+
+    private void setPin(String pin) {
+        // TODO: validate pin
+        // It should be 4 digits
+
+        this.pin = pin;
     }
 
     public void suspend() {
         isSuspended = true;
+    }
+
+    public void resume() {
+        isSuspended = false;
+    }
+
+    public void close() {
+        isClosed = true;
     }
 
     public void deposit(double amount) {
@@ -46,6 +71,6 @@ public abstract class BankAccount {
     }
 
     public String toString() {
-        return String.format("{%s, %s, %.2f}", accountNumber, accountName, balance);
+        return String.format("{%s, %.2f}", accountNumber, balance);
     }
 }
