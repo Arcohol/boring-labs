@@ -8,6 +8,10 @@ public class CurrentAccount extends BankAccount {
         this.overdraftLimit = 500.0;
     }
 
+    public double getOverdraftLimit() {
+        return overdraftLimit;
+    }
+
     @Override
     public void withdraw(double amount) {
         if (amount > (getBalance() + overdraftLimit)) {

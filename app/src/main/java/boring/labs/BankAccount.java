@@ -4,11 +4,13 @@ public abstract class BankAccount {
     private String accountNumber;
     private String accountName;
     private double balance;
+    private boolean isSuspended;
 
     public BankAccount(String accountNumber, String accountName) {
         this.accountNumber = accountNumber;
         this.accountName = accountName;
         this.balance = 0.0;
+        this.isSuspended = false;
     }
 
     public String getAccountNumber() {
@@ -23,8 +25,16 @@ public abstract class BankAccount {
         return balance;
     }
 
+    public boolean isSuspended() {
+        return isSuspended;
+    }
+
     public void setAccountName(String accountName) {
         this.accountName = accountName;
+    }
+
+    public void suspend() {
+        this.isSuspended = true;
     }
 
     public void deposit(double amount) {
