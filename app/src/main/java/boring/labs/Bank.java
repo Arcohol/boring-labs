@@ -3,9 +3,8 @@ package boring.labs;
 import java.util.HashMap;
 
 /**
- * Bank is a HashMap of BankAccounts.
- * It maps account numbers to BankAccounts.
- * It has methods to open and close accounts, deposit and withdraw money, and check balances.
+ * Bank is a HashMap of BankAccounts. It maps account numbers to BankAccounts. It has methods to
+ * open and close accounts, deposit and withdraw money, and check balances.
  */
 public class Bank extends HashMap<String, BankAccount> {
     public Bank() {

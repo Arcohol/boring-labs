@@ -5,7 +5,7 @@ public class CurrentAccount extends BankAccount {
 
     public CurrentAccount(String accountNumber, String accountName) {
         super(accountNumber, accountName);
-        this.overdraftLimit = 500.0;
+        overdraftLimit = 500.0;
     }
 
     public double getOverdraftLimit() {
@@ -14,9 +14,10 @@ public class CurrentAccount extends BankAccount {
 
     @Override
     public void withdraw(double amount) {
-        if (amount > (getBalance() + overdraftLimit)) {
-            throw new IllegalArgumentException("Insufficient funds");
+        if (amount > (getBalance() + getOverdraftLimit())) {
+            throw new InsufficientFundsException("overdraft limit exceeded");
         }
+
         super.withdraw(amount);
     }
 }

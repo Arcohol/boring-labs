@@ -34,7 +34,7 @@ public abstract class BankAccount {
     }
 
     public void suspend() {
-        this.isSuspended = true;
+        isSuspended = true;
     }
 
     public void deposit(double amount) {

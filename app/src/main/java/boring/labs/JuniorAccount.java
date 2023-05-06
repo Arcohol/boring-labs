@@ -18,22 +18,30 @@ public class JuniorAccount extends BankAccount {
         return withdrawalLimit;
     }
 
+    private void resetWithdrawalLimit() {
+        withdrawalLimit = 100.0;
+    }
+
+    private void setLastWithdrawalDate(LocalDate lastWithdrawalDate) {
+        this.lastWithdrawalDate = lastWithdrawalDate;
+    }
+
     @Override
     public void withdraw(double amount) {
+        // if it's a new day, reset the withdrawal limit
         LocalDate today = LocalDate.now();
-        if (lastWithdrawalDate == null) {
-            lastWithdrawalDate = today;
-        } else if (!lastWithdrawalDate.equals(today)) {
-            lastWithdrawalDate = today;
-            withdrawalLimit = 100.0;
+        if (lastWithdrawalDate == null || !lastWithdrawalDate.equals(today)) {
+            resetWithdrawalLimit();
+            setLastWithdrawalDate(today);
         }
 
-        if (amount > withdrawalLimit) {
-            throw new IllegalArgumentException("Withdrawal limit exceeded");
+        if (amount > getWithdrawalLimit()) {
+            throw new ExceedWithdrawalLimitException(
+                    "your request is exceeding the withdrawal limit, which is " + withdrawalLimit);
         }
 
         if (amount > getBalance()) {
-            throw new IllegalArgumentException("Insufficient funds");
+            throw new InsufficientFundsException("Insufficient funds");
         }
 
         super.withdraw(amount);
