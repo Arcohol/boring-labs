@@ -1,10 +1,10 @@
 package boring.labs;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
+import java.util.HashMap;
 
 public class Customer {
-    private LinkedList<BankAccount> accounts;
+    private HashMap<String, BankAccount> accounts;
 
     private String name;
     private String address;
@@ -14,6 +14,8 @@ public class Customer {
     private boolean creditStatus;
 
     public Customer(String name, String address, LocalDate dateOfBirth) {
+        this.accounts = new HashMap<>();
+
         this.name = name;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
@@ -37,11 +39,28 @@ public class Customer {
     }
 
     public void creditCheck() {
-        // simulate credit check
         creditStatus = true;
     }
 
+    public BankAccount getAccount(String accountNumber, String pin) {
+        BankAccount account = accounts.get(accountNumber);
+
+        if (account == null) {
+            throw new RuntimeException("account not found");
+        }
+
+        if (!account.getPin().equals(pin)) {
+            throw new RuntimeException("pin is incorrect");
+        }
+
+        return account;
+    }
+
     public void addAccount(BankAccount account) {
-        accounts.add(account);
+        accounts.put(account.getAccountNumber(), account);
+    }
+
+    public void removeAccount(BankAccount account) {
+        accounts.remove(account.getAccountNumber());
     }
 }

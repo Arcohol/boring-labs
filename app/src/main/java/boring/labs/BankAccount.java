@@ -72,7 +72,7 @@ public abstract class BankAccount {
         isSuspended = true;
     }
 
-    public void resume() {
+    public void reinstate() {
         isSuspended = false;
     }
 
@@ -80,12 +80,12 @@ public abstract class BankAccount {
         isClosed = true;
     }
 
-    public void addDeposit(double amount) {
+    protected void addDeposit(double amount) {
         check();
         transactions.add(new Deposit(amount));
     }
 
-    public void addWithdrawal(double amount) {
+    protected void addWithdrawal(double amount) {
         check();
         transactions.add(new Withdrawal(amount));
         balance -= amount;
