@@ -2,24 +2,31 @@ package boring.labs;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDate;
 
 class TestCurrentAccount {
+    Customer c = new Customer("Foo", "Bar", LocalDate.of(1989, 6, 4));
+
     @Test
     void canOverdraft() {
-        CurrentAccount ca = new CurrentAccount("2932");
-        ca.deposit(100);
-        ca.withdraw(200);
+        CurrentAccount ca = new CurrentAccount("2932", c);
+        ca.addDeposit(100);
+        ca.clearFunds();
+
+        ca.addWithdrawal(200);
         assertEquals(-100, ca.getBalance());
     }
 
     @Test
     void cannotExceedOverdraftLimit() {
-        CurrentAccount ca = new CurrentAccount("2932");
-        ca.deposit(100);
-        ca.withdraw(300);
+        CurrentAccount ca = new CurrentAccount("2932", c);
+        ca.addDeposit(100);
+        ca.clearFunds();
+
+        ca.addWithdrawal(300);
         assertEquals(-200, ca.getBalance());
-        ca.withdraw(200);
+        ca.addWithdrawal(200);
         assertEquals(-400, ca.getBalance());
-        assertThrows(InsufficientFundsException.class, () -> ca.withdraw(200));
+        assertThrows(RuntimeException.class, () -> ca.addWithdrawal(200));
     }
 }
