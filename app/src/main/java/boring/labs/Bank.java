@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 enum AccountType {
-    CURRENT, JUNIOR,
+    CURRENT, JUNIOR, SAVER
 }
 
 
@@ -67,12 +67,9 @@ public class Bank {
         BankAccount account = null;
         do {
             switch (type) {
-                case CURRENT:
-                    account = new CurrentAccount(pin, customer);
-                    break;
-                case JUNIOR:
-                    account = new JuniorAccount(pin, customer);
-                    break;
+                case CURRENT -> account = new CurrentAccount(pin, customer);
+                case JUNIOR -> account = new JuniorAccount(pin, customer);
+                case SAVER -> account = new SaverAccount(pin, customer);
             }
         } while (accounts.containsKey(account.getAccountNumber()));
         customer.addAccount(account);
