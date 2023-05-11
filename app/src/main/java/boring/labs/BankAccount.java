@@ -80,9 +80,12 @@ public abstract class BankAccount {
         isClosed = true;
     }
 
-    protected void addDeposit(double amount) {
+    protected void addDeposit(double amount, TransactionType type) {
         check();
-        transactions.add(new Deposit(amount));
+        transactions.add(new Deposit(amount, type));
+        if (type == TransactionType.CASH) {
+            balance += amount;
+        }
     }
 
     protected void addWithdrawal(double amount) {
@@ -103,9 +106,9 @@ public abstract class BankAccount {
 
     public void clearFunds() {
         for (Transaction transaction : transactions) {
-            if (transaction instanceof Deposit) {
-                balance += transaction.getAmount();
+            if (transaction instanceof Deposit && ((Deposit) transaction).isClear() == false) {
                 ((Deposit) transaction).clear();
+                balance += transaction.getAmount();
             }
         }
     }

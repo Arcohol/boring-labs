@@ -102,10 +102,10 @@ public class Bank {
     }
 
 
-    public void deposit(String accountNumber, double amount) {
+    public void deposit(String accountNumber, double amount, TransactionType type) {
         BankAccount account = getAccount(accountNumber);
 
-        account.addDeposit(amount);
+        account.addDeposit(amount, type);
     }
 
     public void withdraw(String accountNumber, String pin, double amount) {

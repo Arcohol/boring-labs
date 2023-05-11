@@ -10,7 +10,7 @@ class TestJuniorAccount {
     @Test
     void canWithdraw() {
         JuniorAccount ja = new JuniorAccount("2314", c);
-        ja.addDeposit(100);
+        ja.addDeposit(100, TransactionType.CHEQUE);
         ja.clearFunds();
         ja.addWithdrawal(50);
         assertEquals(50, ja.getBalance());
@@ -19,7 +19,7 @@ class TestJuniorAccount {
     @Test
     void cannotExceedWithdrawalLimit() {
         JuniorAccount ja = new JuniorAccount("3982", c);
-        ja.addDeposit(300);
+        ja.addDeposit(300, TransactionType.CHEQUE);
         ja.clearFunds();
         ja.addWithdrawal(50);
         assertThrows(RuntimeException.class, () -> ja.addWithdrawal(60));
@@ -28,7 +28,7 @@ class TestJuniorAccount {
     @Test
     void cannotExceedBalance() {
         JuniorAccount ja = new JuniorAccount("9821", c);
-        ja.addDeposit(50);
+        ja.addDeposit(50, TransactionType.CHEQUE);
         ja.clearFunds();
         assertThrows(RuntimeException.class, () -> ja.addWithdrawal(60));
     }

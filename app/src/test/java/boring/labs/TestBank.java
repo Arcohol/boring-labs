@@ -21,18 +21,14 @@ class TestBank {
 
         // i want to deposit money into the account
         // i will provide the account number and the amount
-        bank.deposit(accno, 100);
+        bank.deposit(accno, 100, TransactionType.CASH);
 
         // i want to check the balance
-        assertEquals(0, bank.checkBalance(accno, "1234"));
+        assertEquals(100, bank.checkBalance(accno, "1234"));
 
         // the customer wants to withdraw money
         // i will provide the account number, the pin, and the amount
-        // but the customer has not cleared the funds
-        assertThrowsExactly(RuntimeException.class, () -> bank.withdraw(accno, "1234", 600));
-
-        // bank periodically clears the funds
-        bank.clearFunds();
+        assertThrowsExactly(RuntimeException.class, () -> bank.withdraw(accno, "1234", 1000));
 
         // now the customer can withdraw
         bank.withdraw(accno, "1234", 50);
