@@ -36,6 +36,9 @@ class TestBank {
         // i want to check the balance
         assertEquals(50, bank.checkBalance(accno, "1234"));
 
+        // clear the balance so that i can close the account
+        bank.withdraw(accno, "1234", 50);
+
         // i want to close the account
         bank.closeAccount(c, accno, "1234");
     }
