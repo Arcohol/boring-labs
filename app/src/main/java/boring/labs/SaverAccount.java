@@ -12,6 +12,7 @@ public class SaverAccount extends BankAccount {
         super(pin, customer);
     }
 
+    // Notice must be set before any withdrawal
     public void setNotice(LocalDate date, double amount) {
         notice = new Notice(date, amount);
     }
@@ -35,5 +36,9 @@ public class SaverAccount extends BankAccount {
         }
 
         super.addWithdrawal(amount);
+
+        // assume that after one withdrawal, the notice is cleared
+        // and you have to set it again
+        notice = null;
     }
 }

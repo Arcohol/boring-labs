@@ -1,5 +1,5 @@
 package boring.labs;
 
-public enum TransactionType {
+public enum DepositType {
     CASH, CHEQUE
 }

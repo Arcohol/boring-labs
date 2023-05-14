@@ -4,10 +4,13 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public abstract class BankAccount {
+    // associate BankAccount with Customer
     private Customer customer;
 
+    // keep track of transactions
     private LinkedList<Transaction> transactions;
 
+    // information about the account
     private String accountNumber;
     private String pin;
     private double balance;
@@ -24,12 +27,20 @@ public abstract class BankAccount {
         }
 
         this.customer = customer;
+
         this.transactions = new LinkedList<>();
-        setAccountNumber();
-        setPin(pin);
+
+        this.accountNumber = generateAccountNumber();
+        this.pin = pin;
         this.balance = 0.0;
         this.isSuspended = false;
         this.isClosed = false;
+    }
+
+    private String generateAccountNumber() {
+        Random random = new Random();
+        int accountNumber = random.nextInt(99999999);
+        return String.format("%08d", accountNumber);
     }
 
     public Customer getCustomer() {
@@ -56,18 +67,6 @@ public abstract class BankAccount {
         return isClosed;
     }
 
-    private void setAccountNumber() {
-        Random random = new Random();
-        int accountNumber = random.nextInt(99999999);
-        this.accountNumber = String.format("%08d", accountNumber);
-    }
-
-    private void setPin(String pin) {
-        // TODO: validate pin
-        // It should be 6 digits
-        this.pin = pin;
-    }
-
     public void suspend() {
         isSuspended = true;
     }
@@ -80,36 +79,45 @@ public abstract class BankAccount {
         isClosed = true;
     }
 
-    protected void addDeposit(double amount, TransactionType type) {
-        check();
+    // add a deposit to the account
+    // if the deposit is cash, add the amount to the balance, and it's immediately cleared
+    protected void addDeposit(double amount, DepositType type) {
+        statusCheck();
+
         transactions.add(new Deposit(amount, type));
-        if (type == TransactionType.CASH) {
+        if (type == DepositType.CASH) {
             balance += amount;
         }
     }
 
+    // add a withdrawal to the account
+    // the balance is directly reduced
     protected void addWithdrawal(double amount) {
-        check();
+        statusCheck();
+
         transactions.add(new Withdrawal(amount));
         balance -= amount;
     }
 
-    public String toString() {
-        return String.format("{%s, %.2f}", accountNumber, balance);
-    }
-
-    public void check() {
+    // if the account is suspended or closed, throw an exception
+    private void statusCheck() {
         if (isSuspended || isClosed) {
             throw new RuntimeException("account is suspended or closed");
         }
     }
 
+    // clear all deposits
     public void clearFunds() {
         for (Transaction transaction : transactions) {
             if (transaction instanceof Deposit && ((Deposit) transaction).isClear() == false) {
+                // if the transaction is a deposit and it's not cleared, clear it
                 ((Deposit) transaction).clear();
                 balance += transaction.getAmount();
             }
         }
+    }
+
+    public String toString() {
+        return String.format("{%s, %.2f}", accountNumber, balance);
     }
 }

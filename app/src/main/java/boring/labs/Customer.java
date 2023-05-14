@@ -39,6 +39,7 @@ public class Customer {
     }
 
     public void creditCheck() {
+        // assume it always passes
         creditStatus = true;
     }
 
@@ -62,5 +63,10 @@ public class Customer {
 
     public void removeAccount(BankAccount account) {
         accounts.remove(account.getAccountNumber());
+    }
+
+    public int getAge() {
+        LocalDate today = LocalDate.now();
+        return today.getYear() - dateOfBirth.getYear();
     }
 }

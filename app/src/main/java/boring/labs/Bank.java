@@ -4,13 +4,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-enum AccountType {
-    CURRENT, JUNIOR, SAVER
-}
-
-
 public class Bank {
+    // accounts is a map of account numbers to accounts
     private HashMap<String, BankAccount> accounts;
+
+    // customers is a list of customers
     private List<Customer> customers;
 
     public Bank() {
@@ -18,6 +16,7 @@ public class Bank {
         this.customers = new LinkedList<>();
     }
 
+    // get account without pin
     private BankAccount getAccount(String accountNumber) {
         BankAccount account = accounts.get(accountNumber);
 
@@ -28,6 +27,7 @@ public class Bank {
         return account;
     }
 
+    // get account with pin
     private BankAccount getAccount(String accountNumber, String pin) {
         BankAccount account = getAccount(accountNumber);
 
@@ -38,91 +38,81 @@ public class Bank {
         return account;
     }
 
-    private void verifyCustomer(Customer customer) {
-        if (customer == null) {
-            throw new RuntimeException("customer cannot be null");
-        }
-
+    // customer credit check
+    private void validateCustomer(Customer customer) {
         if (customer.getCreditStatus() == false) {
             throw new RuntimeException("credit check failed");
         }
     }
 
     public void addCustomer(Customer customer) {
-        if (customer == null) {
-            throw new RuntimeException("customer cannot be null");
-        }
-
-        if (customer.getCreditStatus() == false) {
-            throw new RuntimeException("credit check failed");
-        }
-
         customers.add(customer);
     }
 
     public String openAccount(Customer customer, String pin, AccountType type) {
-        verifyCustomer(customer);
+        validateCustomer(customer);
 
         // try creating an account, check if its account number is already in use
         BankAccount account = null;
         do {
             switch (type) {
                 case CURRENT -> account = new CurrentAccount(pin, customer);
-                case JUNIOR -> account = new JuniorAccount(pin, customer);
+                case JUNIOR -> {
+                    // only customers under 16 can open a junior account
+                    if (customer.getAge() < 16) {
+                        throw new RuntimeException("customer is not a junior");
+                    }
+
+                    account = new JuniorAccount(pin, customer);
+                }
                 case SAVER -> account = new SaverAccount(pin, customer);
             }
         } while (accounts.containsKey(account.getAccountNumber()));
+
+        // add the account to the customer and the bank
         customer.addAccount(account);
         accounts.put(account.getAccountNumber(), account);
+
+        // return the account number
         return account.getAccountNumber();
     }
 
     public void closeAccount(Customer customer, String accountNumber, String pin) {
-        verifyCustomer(customer);
+        validateCustomer(customer);
 
         BankAccount account = customer.getAccount(accountNumber, pin);
+
+        // if the account is not empty, throw an exception
+        if (account.getBalance() != 0) {
+            throw new RuntimeException("account is not empty");
+        }
 
         account.close();
     }
 
     public void suspendAccount(Customer customer, String accountNumber, String pin) {
-        verifyCustomer(customer);
+        validateCustomer(customer);
 
-        BankAccount account = customer.getAccount(accountNumber, pin);
-
-        account.suspend();
+        customer.getAccount(accountNumber, pin).suspend();
     }
 
     public void reinstateAccount(Customer customer, String accountNumber, String pin) {
-        verifyCustomer(customer);
+        validateCustomer(customer);
 
-        BankAccount account = customer.getAccount(accountNumber, pin);
-
-        account.reinstate();
+        customer.getAccount(accountNumber, pin).reinstate();
     }
 
-
-    public void deposit(String accountNumber, double amount, TransactionType type) {
-        BankAccount account = getAccount(accountNumber);
-
-        account.addDeposit(amount, type);
+    // you can deposit to any account without pin
+    public void deposit(String accountNumber, double amount, DepositType type) {
+        getAccount(accountNumber).addDeposit(amount, type);
     }
 
+    // you have to provide the pin to withdraw
     public void withdraw(String accountNumber, String pin, double amount) {
-        BankAccount account = getAccount(accountNumber, pin);
-
-        // cast the account to its actual type
-        if (account instanceof JuniorAccount) {
-            JuniorAccount juniorAccount = (JuniorAccount) account;
-            juniorAccount.addWithdrawal(amount);
-        } else if (account instanceof CurrentAccount) {
-            CurrentAccount currentAccount = (CurrentAccount) account;
-            currentAccount.addWithdrawal(amount);
-        } else {
-            throw new RuntimeException("unknown account type");
-        }
+        getAccount(accountNumber, pin).addWithdrawal(amount);
     }
 
+    // clear funds for all accounts
     public void clearFunds() {
         for (BankAccount account : accounts.values()) {
             account.clearFunds();
@@ -130,8 +120,6 @@ public class Bank {
     }
 
     public double checkBalance(String accountNumber, String pin) {
-        BankAccount account = getAccount(accountNumber, pin);
-
-        return account.getBalance();
+        return getAccount(accountNumber, pin).getBalance();
     }
 }

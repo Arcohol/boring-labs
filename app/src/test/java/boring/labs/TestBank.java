@@ -21,7 +21,7 @@ class TestBank {
 
         // i want to deposit money into the account
         // i will provide the account number and the amount
-        bank.deposit(accno, 100, TransactionType.CASH);
+        bank.deposit(accno, 100, DepositType.CASH);
 
         // i want to check the balance
         assertEquals(100, bank.checkBalance(accno, "1234"));

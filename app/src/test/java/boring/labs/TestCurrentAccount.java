@@ -10,7 +10,7 @@ class TestCurrentAccount {
     @Test
     void canOverdraft() {
         CurrentAccount ca = new CurrentAccount("2932", c);
-        ca.addDeposit(100, TransactionType.CHEQUE);
+        ca.addDeposit(100, DepositType.CHEQUE);
         ca.clearFunds();
 
         ca.addWithdrawal(200);
@@ -20,7 +20,7 @@ class TestCurrentAccount {
     @Test
     void cannotExceedOverdraftLimit() {
         CurrentAccount ca = new CurrentAccount("2932", c);
-        ca.addDeposit(100, TransactionType.CHEQUE);
+        ca.addDeposit(100, DepositType.CHEQUE);
         ca.clearFunds();
 
         ca.addWithdrawal(300);

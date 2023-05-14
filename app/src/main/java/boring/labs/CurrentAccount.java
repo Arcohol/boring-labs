@@ -1,5 +1,8 @@
 package boring.labs;
 
+// CurrentAccount can be overdrawn up to a limit
+// The overdraft limit is set to 500.0 by default
+// It has a different addWithdrawal method
 public class CurrentAccount extends BankAccount {
     private double overdraftLimit;
 

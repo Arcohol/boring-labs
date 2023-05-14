@@ -10,7 +10,7 @@ class TestSaverAccount {
     @Test
     void canWithdraw() {
         SaverAccount sa = new SaverAccount("2314", c);
-        sa.addDeposit(100, TransactionType.CASH);
+        sa.addDeposit(100, DepositType.CASH);
         sa.setNotice(LocalDate.now().minusDays(3), 50);
         sa.addWithdrawal(50);
         assertEquals(50, sa.getBalance());
@@ -19,7 +19,7 @@ class TestSaverAccount {
     @Test
     void cannotWithdrawWithoutNotice() {
         SaverAccount sa = new SaverAccount("3982", c);
-        sa.addDeposit(300, TransactionType.CASH);
+        sa.addDeposit(300, DepositType.CASH);
 
         assertThrows(RuntimeException.class, () -> sa.addWithdrawal(60));
 
