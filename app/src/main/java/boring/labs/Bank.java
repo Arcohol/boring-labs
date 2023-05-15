@@ -1,5 +1,6 @@
 package boring.labs;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,6 +51,11 @@ public class Bank {
     }
 
     public String openAccount(Customer customer, String pin, AccountType type) {
+        // if the customer is not in the bank, throw an exception
+        if (!customers.contains(customer)) {
+            throw new RuntimeException("customer not found");
+        }
+
         validateCustomer(customer);
 
         // try creating an account, check if its account number is already in use
@@ -59,7 +65,7 @@ public class Bank {
                 case CURRENT -> account = new CurrentAccount(pin, customer);
                 case JUNIOR -> {
                     // only customers under 16 can open a junior account
-                    if (customer.getAge() < 16) {
+                    if (customer.getAge() > 16) {
                         throw new RuntimeException("customer is not a junior");
                     }
 
@@ -78,8 +84,6 @@ public class Bank {
     }
 
     public void closeAccount(Customer customer, String accountNumber, String pin) {
-        validateCustomer(customer);
-
         BankAccount account = customer.getAccount(accountNumber, pin);
 
         // if the account is not empty, throw an exception
@@ -91,14 +95,10 @@ public class Bank {
     }
 
     public void suspendAccount(Customer customer, String accountNumber, String pin) {
-        validateCustomer(customer);
-
         customer.getAccount(accountNumber, pin).suspend();
     }
 
     public void reinstateAccount(Customer customer, String accountNumber, String pin) {
-        validateCustomer(customer);
-
         customer.getAccount(accountNumber, pin).reinstate();
     }
 
@@ -119,7 +119,31 @@ public class Bank {
         }
     }
 
+    // give notice
+    public void giveNotice(String accountNumber, String pin, double amount, LocalDate date) {
+        SaverAccount account = (SaverAccount) getAccount(accountNumber, pin);
+        account.setNotice(date, amount);
+    }
+
     public double checkBalance(String accountNumber, String pin) {
         return getAccount(accountNumber, pin).getBalance();
+    }
+
+    // return all accounts for a customer
+    // for debugging purposes
+    public HashMap<String, BankAccount> getAccounts(Customer customer) {
+        return customer.getAccounts();
+    }
+
+    // return all accounts in the bank
+    // for debugging purposes
+    public HashMap<String, BankAccount> getAccounts() {
+        return accounts;
+    }
+
+    // return all customers in the bank
+    // for debugging purposes
+    public List<Customer> getCustomers() {
+        return customers;
     }
 }

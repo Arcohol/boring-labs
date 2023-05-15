@@ -23,8 +23,9 @@ public class SaverAccount extends BankAccount {
             throw new RuntimeException("notice is not set");
         }
 
-        if (notice.date().isAfter(LocalDate.now())) {
-            throw new RuntimeException("notice period not passed");
+        // notice must be given 3 days before withdrawal
+        if (notice.date().isAfter(LocalDate.now().minusDays(3))) {
+            throw new RuntimeException("notice period is not met");
         }
 
         if (amount > getBalance()) {

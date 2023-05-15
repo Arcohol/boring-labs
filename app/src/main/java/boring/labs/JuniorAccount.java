@@ -46,4 +46,9 @@ public class JuniorAccount extends BankAccount {
         withdrawalLimit -= amount;
         lastWithdrawalDate = today;
     }
+
+    // inject the lastWithdrawalDate for testing
+    public void setLastWithdrawalDate(LocalDate lastWithdrawalDate) {
+        this.lastWithdrawalDate = lastWithdrawalDate;
+    }
 }

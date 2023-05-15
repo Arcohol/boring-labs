@@ -18,4 +18,9 @@ public abstract class Transaction {
     public double getAmount() {
         return amount;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s: %.2f", date, amount);
+    }
 }

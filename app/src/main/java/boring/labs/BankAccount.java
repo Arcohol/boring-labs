@@ -1,6 +1,7 @@
 package boring.labs;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public abstract class BankAccount {
@@ -8,7 +9,7 @@ public abstract class BankAccount {
     private Customer customer;
 
     // keep track of transactions
-    private LinkedList<Transaction> transactions;
+    private List<Transaction> transactions;
 
     // information about the account
     private String accountNumber;
@@ -117,7 +118,9 @@ public abstract class BankAccount {
         }
     }
 
+    @Override
     public String toString() {
-        return String.format("{%s, %.2f}", accountNumber, balance);
+        return String.format("{%s, %.2f, is_suspended: %b, is_closed: %b}", accountNumber, balance,
+                isSuspended, isClosed);
     }
 }

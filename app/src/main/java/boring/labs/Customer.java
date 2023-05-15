@@ -69,4 +69,14 @@ public class Customer {
         LocalDate today = LocalDate.now();
         return today.getYear() - dateOfBirth.getYear();
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s, %s, %s, has good credit: %b", name, address, dateOfBirth, creditStatus);
+    }
+
+    // this is for testing
+    public HashMap<String, BankAccount> getAccounts() {
+        return accounts;
+    }
 }
