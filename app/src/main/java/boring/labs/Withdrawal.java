@@ -1,7 +1,7 @@
 package boring.labs;
 
 public class Withdrawal extends Transaction{
-    public Withdrawal(double amount) {
+    protected Withdrawal(double amount) {
         super(amount);
     }
 }

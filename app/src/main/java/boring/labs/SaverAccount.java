@@ -8,17 +8,17 @@ public class SaverAccount extends BankAccount {
 
     Notice notice;
 
-    public SaverAccount(String pin, Customer customer) {
+    protected SaverAccount(String pin, Customer customer) {
         super(pin, customer);
     }
 
     // Notice must be set before any withdrawal
-    public void setNotice(LocalDate date, double amount) {
+    protected void setNotice(LocalDate date, double amount) {
         notice = new Notice(date, amount);
     }
 
     @Override
-    public void addWithdrawal(double amount) {
+    protected void addWithdrawal(double amount) {
         if (notice == null) {
             throw new RuntimeException("notice is not set");
         }

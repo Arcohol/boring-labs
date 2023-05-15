@@ -4,7 +4,7 @@ public class Deposit extends Transaction {
     private boolean isClear;
     private DepositType type;
 
-    public Deposit(double amount, DepositType type) {
+    protected Deposit(double amount, DepositType type) {
         super(amount);
         this.type = type;
         switch (type) {
@@ -13,15 +13,15 @@ public class Deposit extends Transaction {
         }
     }
 
-    public DepositType getType() {
+    protected DepositType getType() {
         return type;
     }
 
-    public boolean isClear() {
+    protected boolean isClear() {
         return isClear;
     }
 
-    public void clear() {
+    protected void clear() {
         isClear = true;
     }
 }

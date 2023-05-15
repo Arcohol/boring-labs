@@ -18,7 +18,7 @@ public abstract class BankAccount {
     private boolean isSuspended;
     private boolean isClosed;
 
-    public BankAccount(String pin, Customer customer) {
+    protected BankAccount(String pin, Customer customer) {
         if (customer == null) {
             throw new RuntimeException("customer cannot be null");
         }
@@ -44,39 +44,39 @@ public abstract class BankAccount {
         return String.format("%08d", accountNumber);
     }
 
-    public Customer getCustomer() {
+    protected Customer getCustomer() {
         return customer;
     }
 
-    public String getAccountNumber() {
+    protected String getAccountNumber() {
         return accountNumber;
     }
 
-    public String getPin() {
+    protected String getPin() {
         return pin;
     }
 
-    public double getBalance() {
+    protected double getBalance() {
         return balance;
     }
 
-    public boolean isSuspended() {
+    protected boolean isSuspended() {
         return isSuspended;
     }
 
-    public boolean isClosed() {
+    protected boolean isClosed() {
         return isClosed;
     }
 
-    public void suspend() {
+    protected void suspend() {
         isSuspended = true;
     }
 
-    public void reinstate() {
+    protected void reinstate() {
         isSuspended = false;
     }
 
-    public void close() {
+    protected void close() {
         isClosed = true;
     }
 
@@ -108,7 +108,7 @@ public abstract class BankAccount {
     }
 
     // clear all deposits
-    public void clearFunds() {
+    protected void clearFunds() {
         for (Transaction transaction : transactions) {
             if (transaction instanceof Deposit && ((Deposit) transaction).isClear() == false) {
                 // if the transaction is a deposit and it's not cleared, clear it

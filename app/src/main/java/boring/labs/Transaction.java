@@ -6,16 +6,16 @@ public abstract class Transaction {
     private LocalDateTime date;
     private double amount;
 
-    public Transaction(double amount) {
+    protected Transaction(double amount) {
         this.date = LocalDateTime.now();
         this.amount = amount;
     }
 
-    public LocalDateTime getDate() {
+    protected LocalDateTime getDate() {
         return date;
     }
 
-    public double getAmount() {
+    protected double getAmount() {
         return amount;
     }
 

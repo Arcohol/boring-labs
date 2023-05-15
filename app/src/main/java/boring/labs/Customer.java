@@ -13,7 +13,7 @@ public class Customer {
     // creditStatus is true if the customer has passed the credit check
     private boolean creditStatus;
 
-    public Customer(String name, String address, LocalDate dateOfBirth) {
+    protected Customer(String name, String address, LocalDate dateOfBirth) {
         this.accounts = new HashMap<>();
 
         this.name = name;
@@ -22,28 +22,28 @@ public class Customer {
         creditCheck();
     }
 
-    public String getName() {
+    protected String getName() {
         return name;
     }
 
-    public String getAddress() {
+    protected String getAddress() {
         return address;
     }
 
-    public LocalDate getDateOfBirth() {
+    protected LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public boolean getCreditStatus() {
+    protected boolean getCreditStatus() {
         return creditStatus;
     }
 
-    public void creditCheck() {
+    protected void creditCheck() {
         // assume it always passes
         creditStatus = true;
     }
 
-    public BankAccount getAccount(String accountNumber, String pin) {
+    protected BankAccount getAccount(String accountNumber, String pin) {
         BankAccount account = accounts.get(accountNumber);
 
         if (account == null) {
@@ -57,15 +57,15 @@ public class Customer {
         return account;
     }
 
-    public void addAccount(BankAccount account) {
+    protected void addAccount(BankAccount account) {
         accounts.put(account.getAccountNumber(), account);
     }
 
-    public void removeAccount(BankAccount account) {
+    protected void removeAccount(BankAccount account) {
         accounts.remove(account.getAccountNumber());
     }
 
-    public int getAge() {
+    protected int getAge() {
         LocalDate today = LocalDate.now();
         return today.getYear() - dateOfBirth.getYear();
     }

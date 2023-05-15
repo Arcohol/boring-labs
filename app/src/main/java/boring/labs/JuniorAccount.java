@@ -10,13 +10,9 @@ public class JuniorAccount extends BankAccount {
     // if it's a new day, reset the withdrawal limit
     private LocalDate lastWithdrawalDate;
 
-    public JuniorAccount(String pin, Customer customer) {
+    protected JuniorAccount(String pin, Customer customer) {
         super(pin, customer);
         resetWithdrawalLimit();
-    }
-
-    public double getWithdrawalLimit() {
-        return withdrawalLimit;
     }
 
     private void resetWithdrawalLimit() {
@@ -24,7 +20,7 @@ public class JuniorAccount extends BankAccount {
     }
 
     @Override
-    public void addWithdrawal(double amount) {
+    protected void addWithdrawal(double amount) {
         LocalDate today = LocalDate.now();
 
         // if it's a new day, or no withdrawal has been made
@@ -33,7 +29,7 @@ public class JuniorAccount extends BankAccount {
             resetWithdrawalLimit();
         }
 
-        if (amount > getWithdrawalLimit()) {
+        if (amount > withdrawalLimit) {
             throw new RuntimeException(
                     "your request is exceeding the withdrawal limit, which is " + withdrawalLimit);
         }

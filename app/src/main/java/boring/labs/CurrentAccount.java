@@ -6,18 +6,14 @@ package boring.labs;
 public class CurrentAccount extends BankAccount {
     private double overdraftLimit;
 
-    public CurrentAccount(String pin, Customer customer) {
+    protected CurrentAccount(String pin, Customer customer) {
         super(pin, customer);
         this.overdraftLimit = 500.0;
     }
 
-    public double getOverdraftLimit() {
-        return overdraftLimit;
-    }
-
     @Override
-    public void addWithdrawal(double amount) {
-        if (amount > (getBalance() + getOverdraftLimit())) {
+    protected void addWithdrawal(double amount) {
+        if (amount > (getBalance() + overdraftLimit)) {
             throw new RuntimeException("overdraft limit exceeded");
         }
 
